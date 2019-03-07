@@ -6,7 +6,17 @@ Written in [nodejs](https://nodejs.org) and internally use [smbclient](https://w
 
 ## Config
 
- Every defined resource must have a path specified and optional access credentials.
+Define concourse resource type:
+
+```yaml
+- name: smb-resource
+  type: docker-image
+  source:
+      repository: vavere/concourse-smb-share
+      tag: "1.0"
+```
+
+Every defined resource must have a path specified and optional access credentials.
 
 - **path**: _//server/share/dir1/dir2_
 - **user**: _username_ (optional)
