@@ -5,7 +5,7 @@ services:
   test:
     build: .
     volumes:
-      - "./:/opt/resource"
+#      - "./:/opt/resource"
       - "./test:/opt/resource/test"
       - "./dest:/opt/resource/dest"
 
