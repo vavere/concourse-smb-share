@@ -20,8 +20,9 @@ const resource = require('./lib/resource');
 
 // read all from stdin
 async function stdin() {
+  if (process.stdin.isTTY) return null;
   let buffer = Buffer.alloc(0);
-  for await (const chunk of process.stdin) 
+  for await (const chunk of process.stdin)
     buffer = Buffer.concat([buffer, chunk]);
   return buffer.toString('utf8');
 }
