@@ -1,0 +1,13 @@
+{
+  "source": {
+    "path": "//server/share/servers/test",
+    "user": "username",
+    "pass": "password"
+  },
+  "version": {
+    "ref": ""
+  },
+  "params": {
+    "files": ["file1.txt", "file2.txt", "file3.txt"]
+  }
+}

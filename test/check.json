@@ -1,0 +1,10 @@
+{
+  "source": {
+    "path": "//server/share/servers/test",
+    "user": "username",
+    "pass": "password"
+  },
+  "version": {
+    "ref": ""
+  }
+}

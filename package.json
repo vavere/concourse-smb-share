@@ -1,0 +1,17 @@
+{
+  "name": "test_node_resource",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "NODE_ENV=test tap test/*.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^5.15.1",
+    "tap": "^12.5.3"
+  }
+}

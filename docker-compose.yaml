@@ -1,0 +1,11 @@
+version: "2"
+
+services:
+
+  test:
+    build: .
+    volumes:
+      - "./:/opt/resource"
+      - "./test:/opt/resource/test"
+      - "./dest:/opt/resource/dest"
+
