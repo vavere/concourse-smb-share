@@ -14,3 +14,5 @@ RUN cd /opt/resource \
 && ln -s index.js out
 
 WORKDIR /opt/resource/
+
+ENV NODE_NO_WARNINGS=1
