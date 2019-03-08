@@ -1,5 +1,6 @@
 version: "2"
 services:
+# for docker hub ci
   sut:
     build: .
     volumes:
@@ -8,3 +9,9 @@ services:
       - "./package.json:/opt/resource/package.json"
       - "./package-lock.json:/opt/resource/package-lock.json"
     command: sh -c "apk add --no-cache npm; npm install; npm test"
+# for interactive testing
+  test:
+    build: .
+    volumes:
+      - "./test:/opt/resource/test"
+      - "./dest:/opt/resource/dest"
