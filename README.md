@@ -9,6 +9,7 @@ Written in [nodejs](https://nodejs.org) and internally use [smbclient](https://w
 Define concourse resource type:
 
 ```yaml
+resource_types:
 - name: smb-resource
   type: docker-image
   source:
@@ -21,13 +22,17 @@ Every defined resource must have a path specified and optional access credential
 - **path**: _//server/share/dir1/dir2_
 - **user**: _username_ (optional)
 - **pass**: _password_ (optional)
+- **in: false**: disable in (optional)
+- **out: false**: disable out (optional)
 
 A valid **path** must contain the following parts:
 
 1. //
-2. server namo or ip address
+2. server name or ip address
 3. share name
 4. path inside share: dir1/dir2/... (optional)
+
+Disabling resource **in** operation makes sense bearing in mind that _concourse_ after **out** operation on specific file(s) always do **in** operation for all (may be big one) folder content.
 
 For example:
 
@@ -58,4 +63,8 @@ The same is true for sending files in _put_. Important say that _put_ no touch o
 
 ## Tests
 
-Unfortunately, tests is completely broken by now.
+Just execute:
+
+```bash
+$ npm test
+```
