@@ -1,0 +1,10 @@
+version: "2"
+services:
+  sut:
+    build: .
+    volumes:
+      - "./test:/opt/resource/test"
+      - "./dest:/opt/resource/dest"
+      - "./package.json:/opt/resource/package.json"
+      - "./package-lock.json:/opt/resource/package-lock.json"
+    command: sh -c "apk add --no-cache npm; npm install; npm test"
