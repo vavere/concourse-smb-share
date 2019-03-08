@@ -67,6 +67,7 @@ const tests = [
   cmds: ['smbclient //server/share password --user=username --grepable --debuglevel=0 -D dir1/dir2/dir3/dir4/dir5/dir6/dir7/dir8/dir9 -c ls'],
   res: [{ref: test_md5}]
 },
+// ---------- IN ----------
 {
   name: 'simple in',
   mode: 'in',
@@ -152,6 +153,55 @@ const tests = [
   res: {version: {ref: test_md5}}
 },
 {
+  name: 'in with files',
+  mode: 'in',
+  input: {source: {path:'//server/share'}, params: {files: ['file']}},
+  dest: 'dest',
+  cmds: [
+    `smbclient //server/share -N --grepable --debuglevel=0 -Tc ${test_path} file`, 
+    `tar -xvf ${test_path} -C dest --strip-components=1`,
+    `rm -f ${test_path}`,
+    'smbclient //server/share -N --grepable --debuglevel=0 -c ls'],
+  res: {version: {ref: test_md5}}
+},
+{
+  name: 'in with couple files',
+  mode: 'in',
+  input: {source: {path:'//server/share'}, params: {files: ['file1', 'file2']}},
+  dest: 'dest',
+  cmds: [
+    `smbclient //server/share -N --grepable --debuglevel=0 -Tc ${test_path} file1 file2`, 
+    `tar -xvf ${test_path} -C dest --strip-components=1`,
+    `rm -f ${test_path}`,
+    'smbclient //server/share -N --grepable --debuglevel=0 -c ls'],
+  res: {version: {ref: test_md5}}
+},
+{
+  name: 'in with multiple files',
+  mode: 'in',
+  input: {source: {path:'//server/share'}, params: {files: ['file1', 'file2', 'file3', 'file4', 'file5', 'file6', 'file7', 'file8', 'file9']}},
+  dest: 'dest',
+  cmds: [
+    `smbclient //server/share -N --grepable --debuglevel=0 -Tc ${test_path} file1 file2 file3 file4 file5 file6 file7 file8 file9`, 
+    `tar -xvf ${test_path} -C dest --strip-components=1`,
+    `rm -f ${test_path}`,
+    'smbclient //server/share -N --grepable --debuglevel=0 -c ls'],
+  res: {version: {ref: test_md5}}
+},
+{
+  name: 'in with user/pass, dirs and files',
+  mode: 'in',
+  input: {source: {path:'//server/share/dir1/dir2', user: 'username', pass: 'password'}, params: {files: ['file1', 'file2']}},
+  dest: 'dest',
+  cmds: [
+    `smbclient //server/share password --user=username --grepable --debuglevel=0 -D dir1/dir2 -Tc ${test_path} file1 file2`, 
+    `tar -xvf ${test_path} -C dest --strip-components=3`,
+    `rm -f ${test_path}`,
+    'smbclient //server/share password --user=username --grepable --debuglevel=0 -D dir1/dir2 -c ls'],
+  res: {version: {ref: test_md5}}
+},
+// ---------- OUT ----------
+{
   name: 'simple out',
   mode: 'out',
   input: {source: {path:'//server/share'}},
@@ -235,6 +285,54 @@ const tests = [
     'smbclient //server/share password --user=username --grepable --debuglevel=0 -D dir1/dir2 -c ls'],
   res: {version: {ref: test_md5}}
 },
+{
+  name: 'simple out with file ',
+  mode: 'out',
+  input: {source: {path:'//server/share'}, params: {files: ['file']}},
+  dest: 'dest',
+  cmds: [
+    `tar -cvf ${test_path} -C dest .`,
+    `smbclient //server/share -N --grepable --debuglevel=0 -Tx ${test_path} file`, 
+    `rm -f ${test_path}`,
+    'smbclient //server/share -N --grepable --debuglevel=0 -c ls'],
+  res: {version: {ref: test_md5}}
+},
+{
+  name: 'simple out with couple files',
+  mode: 'out',
+  input: {source: {path:'//server/share'}, params: {files: ['file1', 'file2']}},
+  dest: 'dest',
+  cmds: [
+    `tar -cvf ${test_path} -C dest .`,
+    `smbclient //server/share -N --grepable --debuglevel=0 -Tx ${test_path} file1 file2`, 
+    `rm -f ${test_path}`,
+    'smbclient //server/share -N --grepable --debuglevel=0 -c ls'],
+  res: {version: {ref: test_md5}}
+},
+{
+  name: 'simple out with multiple files',
+  mode: 'out',
+  input: {source: {path:'//server/share'}, params: {files: ['file1', 'file2', 'file3', 'file4', 'file5', 'file6', 'file7', 'file8', 'file9']}},
+  dest: 'dest',
+  cmds: [
+    `tar -cvf ${test_path} -C dest .`,
+    `smbclient //server/share -N --grepable --debuglevel=0 -Tx ${test_path} file1 file2 file3 file4 file5 file6 file7 file8 file9`, 
+    `rm -f ${test_path}`,
+    'smbclient //server/share -N --grepable --debuglevel=0 -c ls'],
+  res: {version: {ref: test_md5}}
+},
+{
+  name: 'out with user/pass, dirs and files',
+  mode: 'out',
+  input: {source: {path:'//server/share/dir1/dir2', user: 'username', pass: 'password'}, params: {files: ['file1', 'file2']}},
+  dest: 'dest',
+  cmds: [
+    `tar -cvf ${test_path} -C dest .`,
+    `smbclient //server/share password --user=username --grepable --debuglevel=0 -D dir1/dir2 -Tx ${test_path} file1 file2`, 
+    `rm -f ${test_path}`,
+    'smbclient //server/share password --user=username --grepable --debuglevel=0 -D dir1/dir2 -c ls'],
+  res: {version: {ref: test_md5}}
+}
 ];
 
 tests.forEach(({name, mode, input, dest, cmds, res}) => {
