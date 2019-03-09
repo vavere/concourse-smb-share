@@ -75,6 +75,14 @@ jobs:
       skip: true
 ```
 
+You can use **files** as string with multiple names to, but no spaces un file name are alowwed:
+
+```yaml
+put: repo
+  params:
+    files: file1.txt file2.txt
+```
+
 ## Tests
 
 Just execute:

@@ -219,6 +219,58 @@ const tests = [
   cmds: [],
   res: {version: {ref: 'version'}}
 },
+{
+  name: 'in with null files',
+  mode: 'in',
+  input: {source: {path:'//server/share'}, 
+    params: {files: null}},
+  dest: 'dest',
+  cmds: [
+    `smbclient //server/share -N --grepable --debuglevel=0 -Tc ${test_path}`, 
+    `tar -xvf ${test_path} -C dest --strip-components=1`,
+    `rm -f ${test_path}`,
+    'smbclient //server/share -N --grepable --debuglevel=0 -c ls'],
+  res: {version: {ref: test_md5}}
+},
+{
+  name: 'in with empty files',
+  mode: 'in',
+  input: {source: {path:'//server/share'}, 
+    params: {files: ''}},
+  dest: 'dest',
+  cmds: [
+    `smbclient //server/share -N --grepable --debuglevel=0 -Tc ${test_path}`, 
+    `tar -xvf ${test_path} -C dest --strip-components=1`,
+    `rm -f ${test_path}`,
+    'smbclient //server/share -N --grepable --debuglevel=0 -c ls'],
+  res: {version: {ref: test_md5}}
+},
+{
+  name: 'in with string files',
+  mode: 'in',
+  input: {source: {path:'//server/share'}, 
+    params: {files: 'file'}},
+  dest: 'dest',
+  cmds: [
+    `smbclient //server/share -N --grepable --debuglevel=0 -Tc ${test_path} file`, 
+    `tar -xvf ${test_path} -C dest --strip-components=1`,
+    `rm -f ${test_path}`,
+    'smbclient //server/share -N --grepable --debuglevel=0 -c ls'],
+  res: {version: {ref: test_md5}}
+},
+{
+  name: 'in with multiple string files',
+  mode: 'in',
+  input: {source: {path:'//server/share'}, 
+    params: {files: 'file1 file2'}},
+  dest: 'dest',
+  cmds: [
+    `smbclient //server/share -N --grepable --debuglevel=0 -Tc ${test_path} file1 file2`, 
+    `tar -xvf ${test_path} -C dest --strip-components=1`,
+    `rm -f ${test_path}`,
+    'smbclient //server/share -N --grepable --debuglevel=0 -c ls'],
+  res: {version: {ref: test_md5}}
+},
 // ---------- OUT ----------
 {
   name: 'simple out',
@@ -377,7 +429,46 @@ const tests = [
     `rm -f ${test_path}`,
     'smbclient //server/share password --user=username --grepable --debuglevel=0 -D dir1/dir2 -c ls'],
   res: {version: {ref: test_md5}}
-}
+},
+{
+  name: 'out with empty files',
+  mode: 'out',
+  input: {source: {path:'//server/share'}, 
+    params: {files: ''}},
+  dest: 'dest',
+  cmds: [
+    `tar -cvf ${test_path} -C dest .`,
+    `smbclient //server/share -N --grepable --debuglevel=0 -Tx ${test_path}`, 
+    `rm -f ${test_path}`,
+    'smbclient //server/share -N --grepable --debuglevel=0 -c ls'],
+  res: {version: {ref: test_md5}}
+},
+{
+  name: 'out with string files',
+  mode: 'out',
+  input: {source: {path:'//server/share'}, 
+    params: {files: 'file'}},
+  dest: 'dest',
+  cmds: [
+    `tar -cvf ${test_path} -C dest .`,
+    `smbclient //server/share -N --grepable --debuglevel=0 -Tx ${test_path} file`, 
+    `rm -f ${test_path}`,
+    'smbclient //server/share -N --grepable --debuglevel=0 -c ls'],
+  res: {version: {ref: test_md5}}
+},
+{
+  name: 'out with multiple string files',
+  mode: 'out',
+  input: {source: {path:'//server/share'}, 
+    params: {files: 'file1 file2'}},
+  dest: 'dest',
+  cmds: [
+    `tar -cvf ${test_path} -C dest .`,
+    `smbclient //server/share -N --grepable --debuglevel=0 -Tx ${test_path} file1 file2`, 
+    `rm -f ${test_path}`,
+    'smbclient //server/share -N --grepable --debuglevel=0 -c ls'],
+  res: {version: {ref: test_md5}}
+},
 ];
 
 tests.forEach(({name, mode, input, dest, cmds, res}) => {
