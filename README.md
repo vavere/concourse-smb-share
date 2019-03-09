@@ -22,8 +22,6 @@ Every defined resource must have a path specified and optional access credential
 - **path**: _//server/share/dir1/dir2_
 - **user**: _username_ (optional)
 - **pass**: _password_ (optional)
-- **in: false**: disable in (optional)
-- **out: false**: disable out (optional)
 
 A valid **path** must contain the following parts:
 
@@ -31,8 +29,6 @@ A valid **path** must contain the following parts:
 2. server name or ip address
 3. share name
 4. path inside share: dir1/dir2/... (optional)
-
-Disabling resource **in** operation makes sense bearing in mind that _concourse_ after **out** operation on specific file(s) always do **in** operation for all (may be big one) folder content.
 
 For example:
 
@@ -60,6 +56,24 @@ jobs:
 ```
 
 The same is true for sending files in _put_. Important say that _put_ no touch oher remote files.
+
+It's posible disable implicit _get_ step after pipeline _put_ step setting `get_params.skip = true`, with makes sense when dealing with _put_ operations on only few specific file(s) in remote (may be full of files) folder.
+
+Example of putting only few files from _result_ and preventing implicit _get_:
+
+```yaml
+jobs:
+- name: demo
+  plan:
+  - put: result
+    params:
+      dir: result
+      files:
+      - file1.txt
+      - file2.txt
+    get_params:
+      skip: true
+```
 
 ## Tests
 

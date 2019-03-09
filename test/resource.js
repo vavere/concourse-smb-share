@@ -200,6 +200,25 @@ const tests = [
     'smbclient //server/share password --user=username --grepable --debuglevel=0 -D dir1/dir2 -c ls'],
   res: {version: {ref: test_md5}}
 },
+{
+  name: 'in with skip and empty version',
+  mode: 'in',
+  input: {source: {path:'//server/share/dir1/dir2', user: 'username', pass: 'password'}, 
+    params: {files: ['file1', 'file2'], skip: true}},
+  dest: 'dest',
+  cmds: [],
+  res: {version: {ref: null}}
+},
+{
+  name: 'in with skip and version',
+  mode: 'in',
+  input: {source: {path:'//server/share/dir1/dir2', user: 'username', pass: 'password'}, 
+    params: {files: ['file1', 'file2'], skip: true},
+    version: {ref: 'version'}},
+  dest: 'dest',
+  cmds: [],
+  res: {version: {ref: 'version'}}
+},
 // ---------- OUT ----------
 {
   name: 'simple out',
@@ -328,6 +347,32 @@ const tests = [
   dest: 'dest',
   cmds: [
     `tar -cvf ${test_path} -C dest .`,
+    `smbclient //server/share password --user=username --grepable --debuglevel=0 -D dir1/dir2 -Tx ${test_path} file1 file2`, 
+    `rm -f ${test_path}`,
+    'smbclient //server/share password --user=username --grepable --debuglevel=0 -D dir1/dir2 -c ls'],
+  res: {version: {ref: test_md5}}
+}, 
+{
+  name: 'out with user/pass, dirs, files and local dir',
+  mode: 'out',
+  input: {source: {path:'//server/share/dir1/dir2', user: 'username', pass: 'password'}, 
+    params: {files: ['file1', 'file2'], dir: 'result'}},
+  dest: 'dest',
+  cmds: [
+    `tar -cvf ${test_path} -C dest/result .`,
+    `smbclient //server/share password --user=username --grepable --debuglevel=0 -D dir1/dir2 -Tx ${test_path} file1 file2`, 
+    `rm -f ${test_path}`,
+    'smbclient //server/share password --user=username --grepable --debuglevel=0 -D dir1/dir2 -c ls'],
+  res: {version: {ref: test_md5}}
+},
+{
+  name: 'out with user/pass, dirs, files and local deep dirs',
+  mode: 'out',
+  input: {source: {path:'//server/share/dir1/dir2', user: 'username', pass: 'password'}, 
+    params: {files: ['file1', 'file2'], dir: 'result/deep/dive'}},
+  dest: 'dest',
+  cmds: [
+    `tar -cvf ${test_path} -C dest/result/deep/dive .`,
     `smbclient //server/share password --user=username --grepable --debuglevel=0 -D dir1/dir2 -Tx ${test_path} file1 file2`, 
     `rm -f ${test_path}`,
     'smbclient //server/share password --user=username --grepable --debuglevel=0 -D dir1/dir2 -c ls'],
