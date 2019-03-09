@@ -1,6 +1,6 @@
 {
   "name": "concourse-smb-share",
-  "version": "1.3.0",
+  "version": "1.6.0",
   "description": "concourse ci resource for retrieving from and persisting to windows server share",
   "main": "index.js",
   "scripts": {
