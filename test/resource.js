@@ -3,9 +3,11 @@ const tap = require('tap');
 const mock = require('mock-require');
 
 const test_str = 'test';
-const test_md5 = '098f6bcd4621d373cade4e832627b4f6';
+const test_md5 = '098f6bcd';
 const test_path = '/tmp/test';
 const test_cmds = [];
+
+console.info = function() {};  // nop
 
 mock('../lib/spawn', (cmd, args) => {
   test_cmds.push(`${cmd} ${args.join(' ')}`);

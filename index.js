@@ -6,7 +6,8 @@ const resource = require('./lib/resource');
 //Thin wrapper arround concourse resource interface
 (async () => {
   try {
-    console.log = console.warn; // log to stderr
+    console.info = console.warn; // info to stderr, log if debug
+    console.log = (...args) => console.debug ? console.info(...args) : null;
     const mode = path.basename(process.argv[1]);
     const input = JSON.parse(await stdin());
     const dest = process.argv[2] || null;
