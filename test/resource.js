@@ -7,7 +7,7 @@ const test_md5 = '098f6bcd';
 const test_path = '/tmp/test';
 const test_cmds = [];
 
-console.info = function() {};  // nop
+console.log = function() {};  // nop
 
 mock('../lib/spawn', (cmd, args) => {
   test_cmds.push(`${cmd} ${args.join(' ')}`);
