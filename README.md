@@ -90,3 +90,7 @@ Just execute:
 ```bash
 $ npm test
 ```
+
+## License
+
+The MIT License (MIT)
