@@ -14,7 +14,7 @@ resource_types:
   type: docker-image
   source:
       repository: vavere/concourse-smb-share
-      tag: "1.0"
+      tag: latest
 ```
 
 Every defined resource must have a path specified and optional access credentials.
